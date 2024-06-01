@@ -122,7 +122,7 @@ func MenuSelect(choice string, A *dataService, n *int, m *int) {
 	case "1":
 		serviceMenu(A, n, m)
 	case "2":
-		gudangMenu(A, n, m)
+		gudangMenu(A, m)
 	case "3":
 		transaksiMenu(A, n, m)
 	case "4":
@@ -130,7 +130,7 @@ func MenuSelect(choice string, A *dataService, n *int, m *int) {
 		fmt.Println("pilihan tidak tersedia")
 	}
 }
-func gudangMenu(A *dataService, n *int, m *int) {
+func gudangMenu(A *dataService, m *int) {
 	var input string
 	clearScreen()
 	subMenu()
@@ -162,13 +162,13 @@ func transaksiMenu(A *dataService, n *int, m *int) {
 	case "1":
 		changeDataTransaksi(A, *n, *m)
 	case "2":
-		readDataTransaksi(A, *n, *m)
+		readDataTransaksi(A, *n)
 	case "3":
-		readPenjualanBarang(A, *n, *m)
+		readPenjualanBarang(A, *m)
 	}
 
 }
-func readDataTransaksi(A *dataService, n int, m int) {
+func readDataTransaksi(A *dataService, n int) {
 	var tabT dataService = *A
 	var i, j int
 	var pass int = n - 1
@@ -268,7 +268,7 @@ func changeDataTransaksi(A *dataService, n int, m int) {
 
 	}
 }
-func readPenjualanBarang(A *dataService, n int, m int) {
+func readPenjualanBarang(A *dataService, m int) {
 	var pass int = m - 1
 	var tabT dataService = *A
 	var max int
@@ -295,92 +295,27 @@ func readPenjualanBarang(A *dataService, n int, m int) {
 	fmt.Scan(&end)
 }
 func CreateDataSparePart(A *dataService, n *int) {
-	// var x, jum, harga int
-	// var nama, ID string
-	// fmt.Print("masukkan jumlah data yang ingin di input: ")
-	// fmt.Scan(&x)
+	var x, jum, harga int
+	var nama, ID string
+	fmt.Print("masukkan jumlah data yang ingin di input: ")
+	fmt.Scan(&x)
 	clearScreen()
-	// for i := 0; i < x; i++ {
-	// 	fmt.Print("masukkan ID sparepart:")
-	// 	fmt.Scan(&ID)
-	// 	A.Gudang[*n].ID = ID
-	// 	fmt.Print("masukkan nama sparepart: ")
-	// 	fmt.Scan(&nama)
-	// 	A.Gudang[*n].barang = nama
-	// 	fmt.Print("masukkan jumlah sparepart: ")
-	// 	fmt.Scan(&jum)
-	// 	A.Gudang[*n].jumlah = jum
-	// 	fmt.Print("masukkan harga sparepart: ")
-	// 	fmt.Scan(&harga)
-	// 	A.Gudang[*n].harga = harga
-	// 	fmt.Println("Data sudah terinput")
-	// 	*n = *n + 1
-	// }
-	A.Gudang[0].ID = "BA00"
-	A.Gudang[1].ID = "BA01"
-	A.Gudang[2].ID = "BA02"
-	A.Gudang[3].ID = "BA03"
-	A.Gudang[4].ID = "BA04"
-	A.Gudang[5].ID = "BA05"
-	A.Gudang[6].ID = "BA06"
-	A.Gudang[7].ID = "BA07"
-	A.Gudang[8].ID = "BA08"
-	A.Gudang[9].ID = "BA09"
-	A.Gudang[10].ID = "BA10"
-	A.Gudang[11].ID = "BA11"
-	A.Gudang[12].ID = "BA12"
-	A.Gudang[13].ID = "BA13"
-	A.Gudang[14].ID = "BA14"
-	A.Gudang[15].ID = "BA15"
-	A.Gudang[0].barang = "oli gardan"
-	A.Gudang[1].barang = "rantai"
-	A.Gudang[2].barang = "busi"
-	A.Gudang[3].barang = "oli mesin"
-	A.Gudang[4].barang = "filter udara"
-	A.Gudang[5].barang = "kampas rem"
-	A.Gudang[6].barang = "aki"
-	A.Gudang[7].barang = "ban luar"
-	A.Gudang[8].barang = "lampu depan"
-	A.Gudang[9].barang = "kabel kopling"
-	A.Gudang[10].barang = "shock breaker"
-	A.Gudang[11].barang = "karburator"
-	A.Gudang[12].barang = "knalpot"
-	A.Gudang[13].barang = "velg"
-	A.Gudang[14].barang = "spion"
-	A.Gudang[15].barang = "bearing roda"
-	A.Gudang[0].jumlah = 100
-	A.Gudang[1].jumlah = 100
-	A.Gudang[2].jumlah = 100
-	A.Gudang[3].jumlah = 100
-	A.Gudang[4].jumlah = 100
-	A.Gudang[5].jumlah = 100
-	A.Gudang[6].jumlah = 100
-	A.Gudang[7].jumlah = 100
-	A.Gudang[8].jumlah = 100
-	A.Gudang[9].jumlah = 100
-	A.Gudang[10].jumlah = 100
-	A.Gudang[11].jumlah = 100
-	A.Gudang[12].jumlah = 100
-	A.Gudang[13].jumlah = 100
-	A.Gudang[14].jumlah = 100
-	A.Gudang[15].jumlah = 100
-	A.Gudang[0].harga = 50000
-	A.Gudang[1].harga = 123000
-	A.Gudang[2].harga = 25000
-	A.Gudang[3].harga = 65000
-	A.Gudang[4].harga = 40000
-	A.Gudang[5].harga = 75000
-	A.Gudang[6].harga = 450000
-	A.Gudang[7].harga = 350000
-	A.Gudang[8].harga = 85000
-	A.Gudang[9].harga = 18000
-	A.Gudang[10].harga = 275000
-	A.Gudang[11].harga = 210000
-	A.Gudang[12].harga = 320000
-	A.Gudang[13].harga = 410000
-	A.Gudang[14].harga = 60000
-	A.Gudang[15].harga = 50000
-	*n = 15
+	for i := 0; i < x; i++ {
+		fmt.Print("masukkan ID sparepart:")
+		fmt.Scan(&ID)
+		A.Gudang[*n].ID = ID
+		fmt.Print("masukkan nama sparepart: ")
+		fmt.Scan(&nama)
+		A.Gudang[*n].barang = nama
+		fmt.Print("masukkan jumlah sparepart: ")
+		fmt.Scan(&jum)
+		A.Gudang[*n].jumlah = jum
+		fmt.Print("masukkan harga sparepart: ")
+		fmt.Scan(&harga)
+		A.Gudang[*n].harga = harga
+		fmt.Println("Data sudah terinput")
+		*n = *n + 1
+	}
 }
 func ChangeDataSparePart(A *dataService, n *int) {
 	var x string
