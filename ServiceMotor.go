@@ -205,9 +205,18 @@ func changeDataTransaksi(A *dataService, n int, m int) {
 	var idx1, idx2 int
 	var loop bool = false
 	clearScreen()
-	fmt.Print("masukan ID pelanggan: ")
-	fmt.Scan(&input)
-	FindDataService(*A, input, n, &idx1)
+	for !loop {
+		fmt.Print("masukan ID pelanggan: ")
+		fmt.Scan(&input)
+		clearScreen()
+		FindDataService(*A, input, n, &idx1)
+		if idx1 == -1 {
+			fmt.Println("PERINGATAN!! ~~data tidak ditemukan~~")
+		} else {
+			loop = true
+		}
+	}
+	loop = false
 	clearScreen()
 	fmt.Println("pilih:")
 	fmt.Println("1. tambah pergantian spare part")
@@ -223,10 +232,11 @@ func changeDataTransaksi(A *dataService, n int, m int) {
 			}
 			fmt.Print("masukan spare part yang ingin ditambahkan: ")
 			fmt.Scan(&find)
-			idx2 = FindDataSparePart(*A, n, find)
+			idx2 = FindDataSparePart(*A, m, find)
 			if idx2 == -1 {
 				fmt.Println("data tidak ditemukan")
 			} else {
+				A.Pelanggan[idx1].ganti.barang[A.Pelanggan[idx1].idxG] = idx2
 				A.Pelanggan[idx1].idxG++
 				A.Gudang[idx2].jumlah--
 				A.Gudang[idx2].sold++
@@ -247,11 +257,11 @@ func changeDataTransaksi(A *dataService, n int, m int) {
 			}
 			fmt.Println("masukan ID barang yang ingin di hapus: ")
 			fmt.Scan(&find)
-			idx2 = FindDataSparePart(*A, n, find)
+			idx2 = FindDataSparePart(*A, m, find)
 			A.Gudang[idx2].jumlah++
 			A.Gudang[idx2].sold--
 			A.Pelanggan[idx1].ganti.tarif -= A.Gudang[idx2].harga
-			for j := idx2; j < A.Pelanggan[idx1].idxG; j++ {
+			for j := findIdxChangeSparePart(*A, idx2, idx1); j < A.Pelanggan[idx1].idxG; j++ {
 				A.Pelanggan[idx1].ganti.barang[j] = A.Pelanggan[idx1].ganti.barang[j+1]
 			}
 			A.Pelanggan[idx1].idxG--
@@ -398,32 +408,32 @@ func InputDataPelanggan(A *dataService, n *int, m int) {
 		clearScreen()
 		fmt.Print("masukkan ID pelanggan: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].noID = tempS
+		A.Pelanggan[*n].noID = tempS
 		fmt.Print("masukkan nama pelanggan: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].nama = tempS
+		A.Pelanggan[*n].nama = tempS
 		clearScreen()
 		fmt.Println("masukkan alamat pelanggan ")
 		fmt.Print("masukkan kabupaten/kota: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].alamat.kabKot = tempS
+		A.Pelanggan[*n].alamat.kabKot = tempS
 		fmt.Print("masukkan kecamatan: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].alamat.kec = tempS
+		A.Pelanggan[*n].alamat.kec = tempS
 		fmt.Print("masukkan komplek/desa: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].alamat.komDes = tempS
+		A.Pelanggan[*n].alamat.komDes = tempS
 		fmt.Print("masukkan nomor rumah: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].alamat.NoRum = tempS
+		A.Pelanggan[*n].alamat.NoRum = tempS
 		clearScreen()
 		fmt.Print("masukkan nomor telepon pelanggan: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].no_telp = tempS
+		A.Pelanggan[*n].no_telp = tempS
 		clearScreen()
 		fmt.Print("masukkan merk/tipe motor: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].merk = tempS
+		A.Pelanggan[*n].merk = tempS
 		clearScreen()
 		fmt.Println("jenis motor: ")
 		fmt.Println("1. bebek")
@@ -433,11 +443,11 @@ func InputDataPelanggan(A *dataService, n *int, m int) {
 		fmt.Scan(&tempS)
 		switch tempS {
 		case "1":
-			A.Pelanggan[i].tipe_motor = "bebek"
+			A.Pelanggan[*n].tipe_motor = "bebek"
 		case "2":
-			A.Pelanggan[i].tipe_motor = "matic"
+			A.Pelanggan[*n].tipe_motor = "matic"
 		case "3":
-			A.Pelanggan[i].tipe_motor = "sport"
+			A.Pelanggan[*n].tipe_motor = "sport"
 		default:
 			fmt.Println("pilihan tidak tersedia")
 		}
@@ -452,37 +462,37 @@ func InputDataPelanggan(A *dataService, n *int, m int) {
 		fmt.Scan(&tempS)
 		switch tempS {
 		case "1":
-			A.Pelanggan[i].tipe_mesin = 125
+			A.Pelanggan[*n].tipe_mesin = 125
 		case "2":
-			A.Pelanggan[i].tipe_mesin = 150
+			A.Pelanggan[*n].tipe_mesin = 150
 		case "3":
-			A.Pelanggan[i].tipe_mesin = 200
+			A.Pelanggan[*n].tipe_mesin = 200
 		case "4":
-			A.Pelanggan[i].tipe_mesin = 250
+			A.Pelanggan[*n].tipe_mesin = 250
 		case "5":
 			fmt.Print("masukkan tipe mesin: ")
 			fmt.Scan(&tempI)
-			A.Pelanggan[i].tipe_mesin = tempI
+			A.Pelanggan[*n].tipe_mesin = tempI
 		default:
 			fmt.Println("pilihan tidak tersedia")
 		}
-		A.Pelanggan[i].tipe_mesin = tempI
+		A.Pelanggan[*n].tipe_mesin = tempI
 		clearScreen()
 		fmt.Print("masukkan nomor polisi: ")
 		fmt.Scan(&tempS)
-		A.Pelanggan[i].no_polisi = tempS
+		A.Pelanggan[*n].no_polisi = tempS
 		clearScreen()
 		fmt.Println("masukkan tanggal sevice")
 		fmt.Print("tanggal: ")
 		fmt.Scan(&tempI)
-		A.Pelanggan[i].tanggal = tempI
+		A.Pelanggan[*n].tanggal = tempI
 		fmt.Print("bulan(dengan angka): ")
 		fmt.Scan(&tempI)
-		A.Pelanggan[i].bulan = tempI
+		A.Pelanggan[*n].bulan = tempI
 		fmt.Print("tahun: ")
 		fmt.Scan(&tempI)
-		A.Pelanggan[i].tahun = tempI
-		sparePartsChange(A, i, m)
+		A.Pelanggan[*n].tahun = tempI
+		sparePartsChange(A, *n, m)
 		*n = *n + 1
 	}
 }
@@ -536,6 +546,20 @@ func FindDataSparePart(A dataService, n int, x string) int {
 	i := 0
 	for i < n && !hasil {
 		if A.Gudang[i].ID == x {
+			hasil = true
+			idx = i
+		} else {
+			i++
+		}
+	}
+	return idx
+}
+func findIdxChangeSparePart(A dataService, idxG, idxP int) int {
+	var hasil bool = false
+	idx := -1
+	i := 0
+	for i < A.Pelanggan[idxP].idxG && !hasil {
+		if A.Gudang[A.Pelanggan[idxP].ganti.barang[i]].barang == A.Gudang[idxG].barang {
 			hasil = true
 			idx = i
 		} else {
